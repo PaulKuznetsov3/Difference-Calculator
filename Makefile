@@ -8,3 +8,7 @@ lint:
 install:
 	npm ci
 	sudo npm link --force
+test-coverage: 
+	npm test -- --coverage 
+test-watch:
+	npm test -s -- --watch

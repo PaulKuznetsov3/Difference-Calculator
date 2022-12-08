@@ -4,3 +4,5 @@ publish:
 	sudo npm link --force
 gendiff:
 	node bin/gendiff.js
+lint:
+	npx eslint .

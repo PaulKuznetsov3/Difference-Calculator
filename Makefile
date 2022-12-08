@@ -9,7 +9,7 @@ install:
 	npm ci
 	sudo npm link --force
 test-watch:
-	npm test -s -- --watch
+	npm test
 test-coverage: 
 	npm test -- --coverage --coverageProvider=v8
 

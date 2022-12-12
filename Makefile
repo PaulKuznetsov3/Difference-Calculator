@@ -8,7 +8,7 @@ lint:
 install:
 	npm ci
 	sudo npm link --force
-test-watch:
+test:
 	npm test
 test-coverage: 
 	npm test -- --coverage --coverageProvider=v8

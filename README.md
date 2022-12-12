@@ -9,3 +9,5 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/848d57dff52a27eefa0d/test_coverage)](https://codeclimate.com/github/PaulKuznetsov3/frontend-project-46/test_coverage)
 
 [![asciicast](https://asciinema.org/a/gdRdyXY2ushlfXzgv5xl9hGA5.svg)](https://asciinema.org/a/gdRdyXY2ushlfXzgv5xl9hGA5)
+
+[![asciicast](https://asciinema.org/a/I2eWMegVBI0JqfEKfN9EXocDj.svg)](https://asciinema.org/a/I2eWMegVBI0JqfEKfN9EXocDj)

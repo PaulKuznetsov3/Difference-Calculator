@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>32/32</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -84,18 +84,7 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -106,56 +95,34 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">#!/usr/bin/env node
-import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import getFormat from './parsers.js';
+import compareFiles from './compareFiles.js';
 &nbsp;
 const getPath = (filepath) =&gt; path.resolve(process.cwd(), filepath);
 const readFile = (filepath) =&gt; fs.readFileSync((getPath(filepath)), 'utf-8');
+const format = (data) =&gt; path.extname(data);
 &nbsp;
 const genDiff = (filepath1, filepath2) =&gt; {
   const file1 = readFile(filepath1);
   const file2 = readFile(filepath2);
-  const file1parse = JSON.parse(file1);
-  const file2parse = JSON.parse(file2);
-  const keys = Object.keys({ ...file1parse, ...file2parse });
-  const sortKeys = _.sortBy(keys);
-  const result = sortKeys.map((key) =&gt; {
-    const value1 = file1parse[key];
-    const value2 = file2parse[key];
-    if (!_.has(file1parse, key)) {
-      return (`+ ${key}: ${value2}`);
-    } if (!_.has(file2parse, key)) {
-      return (`- ${key}: ${value1}`);
-    } if (value2 !== value1) {
-      return (`- ${key}: ${value1}\n+ ${key}: ${value2}`);
-    }
-    return (`  ${key}: ${value1}`);
-  });
-&nbsp;
-  return `{\n${result.join('\n')}\n}`;
+  const format1 = format(filepath1);
+  const format2 = format(filepath2);
+  const file1parse = getFormat(file1, format1);
+  const file2parse = getFormat(file2, format2);
+  return compareFiles(file1parse, file2parse);
 };
 &nbsp;
 export default genDiff;
@@ -166,7 +133,7 @@ export default genDiff;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-08T11:40:20.421Z
+                at 2022-12-09T11:34:34.591Z
             </div>
         <script src="../prettify.js"></script>
         <script>

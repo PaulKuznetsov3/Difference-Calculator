@@ -1,21 +1,45 @@
 import _ from 'lodash';
+import getTree from './stylish.js';
 
 const compareFiles = (file1, file2) => {
-  const keys = Object.keys({ ...file1, ...file2 });
-  const sortKeys = _.sortBy(keys);
-  const result = sortKeys.map((key) => {
-    const value1 = file1[key];
-    const value2 = file2[key];
+  const keys1 = _.keys(file1);
+  const keys2 = _.keys(file2);
+  const sortedKeys = _.sortBy(_.union(keys1, keys2));
+  const result = sortedKeys.map((key) => {
+    
     if (!_.has(file1, key)) {
-      return (`+ ${key}: ${value2}`);
+      return {
+        key,
+        value: file2[key],
+        type: 'added',
+      }; 
     } if (!_.has(file2, key)) {
-      return (`- ${key}: ${value1}`);
-    } if (value2 !== value1) {
-      return (`- ${key}: ${value1}\n+ ${key}: ${value2}`);
+      return {
+        key,
+        value: file1[key],
+        type: 'deleted',
+      };
+    } if(_.isObject(file1[key]) && _.isObject(file2[key])){
+      return {
+        key,
+        type: 'nested',
+        children: compareFiles(file1[key], file2[key]),
+      };
     }
-    return (`  ${key}: ${value1}`);
+    if (file2[key] !== file1[key])return {
+      key,
+      valueBefore: file1[key],
+      valueAfter: file2[key],
+      type: 'changed',
+    };
+    return {
+      key,
+      value: file1[key],
+      type: 'unchanged'
+    };
   });
-  return `{\n${result.join('\n')}\n}`;
+  
+return getTree(result)
 };
 
 export default compareFiles;

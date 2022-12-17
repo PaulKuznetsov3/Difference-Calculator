@@ -5,8 +5,8 @@ const compareFiles = (file1, file2) => {
   const keys1 = _.keys(file1);
   const keys2 = _.keys(file2);
   const sortedKeys = _.sortBy(_.union(keys1, keys2));
+
   const result = sortedKeys.map((key) => {
-    
     if (!_.has(file1, key)) {
       return {
         key,

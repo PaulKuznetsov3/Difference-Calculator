@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const makeIndent = (depth, spacesCount = 4) => ' '.repeat(spacesCount * depth - 2);
-const stringify = (value, depth) => {
+/*const stringify = (value, depth = 1) => {
   
   if (typeof value !== 'object' || value === null) {
     return String(value);
@@ -9,18 +9,19 @@ const stringify = (value, depth) => {
   
   const massValue = Object.entries(value);
   const lines = massValue.map(([key, val]) => {
-      return `${makeIndent(depth + 1)}${key}: ${iter(val, depth + 1)}`;
+      return `${makeIndent(depth)}${key}: ${stringify(val, depth + 1)}`;
     })
     const result = ['{', ...lines, `${makeIndent(depth)}`, `}`].join('\n');
     
     return result;
 };
 
-const getTree = (ast ) => {
-  console.log('Ast: ',ast)
-const iter = (curAst, depth ) => {
-  console.log('curAst: ',curAst)
-  const lines = curAst.map((obj) => {
+const getTree = (tree ) => {
+  console.log('Tree: ',tree)
+  
+const iter = (value, depth) => {
+  console.log('value: ',value)
+  const lines = value.map((obj) => {
     const {key, type, children, value, valueAfter, valueBefore} = obj;
    
     switch (type) {
@@ -29,9 +30,9 @@ const iter = (curAst, depth ) => {
       case 'deleted':
         return `${makeIndent(depth)}- ${key}: ${stringify(value, depth + 1)}`; 
         case 'nested':
-          return `${makeIndent(depth)}  ${key}: {\n${stringify(iter(children, depth + 1))}\n${makeIndent(depth)}}`;
+          return `${makeIndent(depth)}  ${key}: {\n${(iter(children, depth + 1))}\n${makeIndent(depth)}}`;
       case  'changed':
-        return `${makeIndent(depth)}- ${key}: ${stringify(valueBefore, depth + 1 )}\n${makeIndent(depth + 1)}+ ${key}: ${stringify(valueAfter, depth)}`;
+        return `${makeIndent(depth)}- ${key}: ${stringify(valueBefore, depth + 1 )}\n${makeIndent(depth )}+ ${key}: ${stringify(valueAfter, depth + 1)}`;
       case 'unchanged':
        return `${makeIndent(depth)}  ${key}: ${stringify(value, depth + 1)}`; 
       default :
@@ -43,12 +44,12 @@ const iter = (curAst, depth ) => {
 
 }
 
-  return iter(ast, 1)
+  return iter(tree, 1)
   
-};
+};*/
 
 
-/*const stringify = (value) => {
+const stringify = (value) => {
   const iter = (carrentValue, depth) => {
     if (typeof carrentValue !== 'object' || carrentValue === null) {
       return String(carrentValue);
@@ -58,7 +59,7 @@ const iter = (curAst, depth ) => {
     const lines = massValue.map(([key, val]) => {
         return `${makeIndent(depth )}${key}: ${iter(val, depth + 1)}`;
       })
-      const result = ['{', ...lines, `${makeIndent(depth )}}`].join('\n');
+      const result = ['{', ...lines, `${makeIndent(depth + 1 )}}`].join('\n');
       
       return result;
 
@@ -66,11 +67,11 @@ const iter = (curAst, depth ) => {
   return iter(value, 1);
 };
 
-const getTree = (ast, depth = 1) => {
- // console.log('ast: ', ast)
+const getTree = (tree, depth = 1) => {
+ // console.log('tree: ', tree)
     
-     const lines = ast.map((obj) => {
-      console.log('obj: ', obj)
+     const lines = tree.map((obj) => {
+      //console.log('obj: ', obj)
      
       const {key, type, children, value, valueAfter, valueBefore} = obj;
 
@@ -96,6 +97,6 @@ const getTree = (ast, depth = 1) => {
       return ['{', ...lines, `${makeIndent(depth)}}`].join('\n');
       
     
-};*/
+};
 
   export default getTree;

@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import getTree from './stylish.js';
 
 const compareFiles = (file1, file2) => {
   const keys1 = _.keys(file1);
@@ -12,34 +11,36 @@ const compareFiles = (file1, file2) => {
         key,
         value: file2[key],
         type: 'added',
-      }; 
+      };
     } if (!_.has(file2, key)) {
       return {
         key,
         value: file1[key],
         type: 'deleted',
       };
-    } if(_.isObject(file1[key]) && _.isObject(file2[key])){
+    } if (_.isObject(file1[key]) && _.isObject(file2[key])) {
       return {
         key,
         type: 'nested',
         children: compareFiles(file1[key], file2[key]),
       };
     }
-    if (file2[key] !== file1[key])return {
-      key,
-      valueBefore: file1[key],
-      valueAfter: file2[key],
-      type: 'changed',
-    };
+    if (file2[key] !== file1[key]) {
+      return {
+        key,
+        valueBefore: file1[key],
+        valueAfter: file2[key],
+        type: 'changed',
+      };
+    }
     return {
       key,
       value: file1[key],
-      type: 'unchanged'
+      type: 'unchanged',
     };
   });
-  
-return getTree(result)
+
+  return result;
 };
 
 export default compareFiles;

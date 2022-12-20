@@ -1,5 +1,4 @@
 const expected = `{
-  {
     common: {
       + follow: false
         setting1: Value 1

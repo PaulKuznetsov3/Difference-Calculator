@@ -6,11 +6,10 @@ gendiff:
 lint:
 	npx eslint .
 install:
-	npm ci
-	sudo npm link --force
+	npm install
 test:
 	npm test
-test-coverage: 
+test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 
 .PHONY: test

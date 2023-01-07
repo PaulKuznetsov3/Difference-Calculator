@@ -1,12 +1,12 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/PaulKuznetsov3/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/PaulKuznetsov3/frontend-project-46/actions)",
+  "description": "Difference Calculator is a program that determines the difference between two data structures",
   "type": "module",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
-  "main": "bin/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "npx jest"
   },

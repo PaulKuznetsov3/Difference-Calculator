@@ -2,7 +2,7 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 
-const formatter = (compare, format) => {
+const getFormatter = (compare, format) => {
   switch (format) {
     case 'stylish':
       return stylish(compare);
@@ -11,7 +11,7 @@ const formatter = (compare, format) => {
     case 'json':
       return json(compare);
     default:
-      return 'unknown type';
+      throw new Error(`unknown format: '${format}'!`);
   }
 };
-export default formatter;
+export default getFormatter;

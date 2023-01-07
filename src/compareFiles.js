@@ -18,18 +18,18 @@ const compareFiles = (file1, file2) => {
         value: file1[key],
         type: 'deleted',
       };
-    } if (_.isObject(file1[key]) && _.isObject(file2[key])) {
+    } if (_.isPlainObject(file1[key]) && _.isPlainObject(file2[key])) {
       return {
         key,
         type: 'nested',
         children: compareFiles(file1[key], file2[key]),
       };
     }
-    if (file2[key] !== file1[key]) {
+    if (!_.isEqual(file2[key], file1[key])) {
       return {
         key,
-        valueBefore: file1[key],
-        valueAfter: file2[key],
+        value1: file1[key],
+        value2: file2[key],
         type: 'changed',
       };
     }

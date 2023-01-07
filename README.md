@@ -8,6 +8,16 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/848d57dff52a27eefa0d/test_coverage)](https://codeclimate.com/github/PaulKuznetsov3/frontend-project-46/test_coverage)
 
+# Difference Calculator
+
+Difference Calculator is a program that determines the difference between two data structures.
+Utility Features:
+  - Support for different input formats: yaml, json
+  - Generating a report in the form of plain text, stylish and json
+
+## system requirements: 
+  Node.js v18.11.0
+
 ## Install:
   - clone a repository git@github.com:PaulKuznetsov3/frontend-project-46.git
   - perform make install

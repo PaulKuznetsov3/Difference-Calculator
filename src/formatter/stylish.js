@@ -18,23 +18,19 @@ const stringify = (value, depth) => {
 const stylish = (tree) => {
   const iter = (node, depth) => {
     const lines = node.map((obj) => {
-      const {
-        key, type, children, value, value1, value2,
-      } = obj;
-
-      switch (type) {
+      switch (obj.type) {
         case 'added':
-          return `${makeIndent(depth)}+ ${key}: ${stringify(value, depth + 1)}`;
+          return `${makeIndent(depth)}+ ${obj.key}: ${stringify(obj.value, depth + 1)}`;
         case 'deleted':
-          return `${makeIndent(depth)}- ${key}: ${stringify(value, depth + 1)}`;
+          return `${makeIndent(depth)}- ${obj.key}: ${stringify(obj.value, depth + 1)}`;
         case 'nested':
-          return `${makeIndent(depth)}  ${key}: {\n${(iter(children, depth + 1))}\n${makeBackIndent(depth)}}`;
+          return `${makeIndent(depth)}  ${obj.key}: {\n${(iter(obj.children, depth + 1))}\n${makeBackIndent(depth)}}`;
         case 'changed':
-          return `${makeIndent(depth)}- ${key}: ${stringify(value1, depth + 1)}\n${makeIndent(depth)}+ ${key}: ${stringify(value2, depth + 1)}`;
+          return `${makeIndent(depth)}- ${obj.key}: ${stringify(obj.value1, depth + 1)}\n${makeIndent(depth)}+ ${obj.key}: ${stringify(obj.value2, depth + 1)}`;
         case 'unchanged':
-          return `${makeIndent(depth)}  ${key}: ${stringify(value, depth + 1)}`;
+          return `${makeIndent(depth)}  ${obj.key}: ${stringify(obj.value, depth + 1)}`;
         default:
-          throw new Error(`unknown format: '${type}'!`);
+          throw new Error(`unknown format: '${obj.type}'!`);
       }
     });
 

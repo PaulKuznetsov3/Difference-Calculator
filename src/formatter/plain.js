@@ -15,22 +15,19 @@ const getPath = (valuePath, key) => [...valuePath, key].join('.');
 const plain = (tree) => {
   const iter = (node, path = []) => {
     const lines = node.flatMap((obj) => {
-      const {
-        key, type, children, value, value1, value2,
-      } = obj;
-      switch (type) {
+      switch (obj.type) {
         case 'unchanged':
           return [];
         case 'added':
-          return `Property '${getPath(path, key)}' was added with value: ${stringify(value)}`;
+          return `Property '${getPath(path, obj.key)}' was added with value: ${stringify(obj.value)}`;
         case 'deleted':
-          return `Property '${getPath(path, key)}' was removed`;
+          return `Property '${getPath(path, obj.key)}' was removed`;
         case 'nested':
-          return `${iter(children, [getPath(path, key)])}`;
+          return `${iter(obj.children, [getPath(path, obj.key)])}`;
         case 'changed':
-          return `Property '${getPath(path, key)}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
+          return `Property '${getPath(path, obj.key)}' was updated. From ${stringify(obj.value1)} to ${stringify(obj.value2)}`;
         default:
-          throw new Error(`unknown format: '${type}'!`);
+          throw new Error(`unknown format: '${obj.type}'!`);
       }
     });
     return `${lines.join('\n')}`;
